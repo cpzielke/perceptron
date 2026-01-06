@@ -1,0 +1,1 @@
+("Network", ["Algorithms", "Prelude"], [[(("Network", "Example"), 3)], [(("Network", "Layer"), 2)], [(("Network", "Network"), 4)]], ["_inst#Prelude.Data#Network.Example#", "_impl#===#Prelude.Data#Network.Example#", "_impl#aValue#Prelude.Data#Network.Example#", "name", "inputs", "expectation", "nodes", "algorithm", "weights", "exs", "layers", "learningRate"], [])

@@ -1,0 +1,1 @@
+("Learn", ["Algorithms", "Network", "Perceptron", "Prelude"], [], ["deltaOut", "deltaNeuron", "deltaInner", "backPropagate", "gradientDescent", "learnExample", "learnEpic", "learn", "initialWeights"], [])

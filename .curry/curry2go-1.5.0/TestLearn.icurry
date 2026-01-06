@@ -1,0 +1,39 @@
+interface TestLearn where {
+import Network;
+import Prelude;
+testBPnet 0 :: [[Prelude.Float]];
+testBackPropagate 0 :: [[Prelude.Float]];
+testDeltaInner 0 :: Prelude.Bool;
+testDeltaNeuron 0 :: Prelude.Bool;
+testDeltaOut 0 :: [Prelude.Float];
+testDeltaOut2 1 :: [Prelude.Float] -> [Prelude.Float];
+testEpic
+2
+::
+Network.Network -> [[[Prelude.Float]]] -> [[[Prelude.Float]]];
+testEpicNet 0 :: [[[Prelude.Float]]];
+testFFnet 0 :: [[Prelude.Float]];
+testGD 0 :: [[[Prelude.Float]]];
+testGDnet 0 :: [[[Prelude.Float]]];
+testGate
+3
+::
+Network.Network -> [Prelude.Float] -> [[[Prelude.Float]]] ->
+[Prelude.Float];
+testInitialWeights 0 :: [[[Prelude.Float]]];
+testLE 0 :: [[[Prelude.Float]]];
+testLEgate
+2
+::
+Network.Network -> [[[Prelude.Float]]] -> [[[Prelude.Float]]];
+testLEnet 0 :: [[[Prelude.Float]]];
+testLearn 0 :: [[[Prelude.Float]]];
+testLearnGate
+2
+::
+Network.Network -> [[[Prelude.Float]]] -> [[[Prelude.Float]]];
+testLearnNet 0 :: [[[Prelude.Float]]];
+hiding data Prelude.Float;
+hiding data Prelude.Bool;
+hiding data Network.Network
+}

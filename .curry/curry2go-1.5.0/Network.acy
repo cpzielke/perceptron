@@ -1,0 +1,14 @@
+{- AbstractCurry 3.0 -}
+CurryProg "Network"
+["Algorithms"]
+Nothing
+ []
+ []
+ [CTypeSyn ("Network","Input") Public [] (CTCons ("Prelude","Float")),
+  CTypeSyn ("Network","Output") Public [] (CTCons ("Prelude","Float")),
+  CTypeSyn ("Network","Weight") Public [] (CTCons ("Prelude","Float")),
+  CType ("Network","Example") Public [] [CRecord ("Network","Example") Private [CField ("Network","name") Public (CTCons ("Prelude","String")),CField ("Network","inputs") Public (CTApply (CTCons ("Prelude","[]")) (CTCons ("Network","Input"))),CField ("Network","expectation") Public (CTApply (CTCons ("Prelude","[]")) (CTCons ("Network","Output")))]] [],
+  CType ("Network","Layer") Public [] [CRecord ("Network","Layer") Private [CField ("Network","nodes") Public (CTCons ("Prelude","Int")),CField ("Network","algorithm") Public (CTCons ("Algorithms","Algorithm"))]] [],
+  CType ("Network","Network") Public [] [CRecord ("Network","Network") Private [CField ("Network","weights") Public (CTApply (CTCons ("Prelude","[]")) (CTApply (CTCons ("Prelude","[]")) (CTApply (CTCons ("Prelude","[]")) (CTCons ("Network","Weight"))))),CField ("Network","exs") Public (CTApply (CTCons ("Prelude","[]")) (CTCons ("Network","Example"))),CField ("Network","layers") Public (CTApply (CTCons ("Prelude","[]")) (CTCons ("Network","Layer"))),CField ("Network","learningRate") Public (CTCons ("Prelude","Float"))]] []]
+ []
+ []

@@ -1,0 +1,10 @@
+interface LogicExamples where {
+import Network;
+andNetwork 0 :: Network.Network;
+nandNetwork 0 :: Network.Network;
+notNetwork 0 :: Network.Network;
+orNetwork 0 :: Network.Network;
+xorNetwork 0 :: Network.Network;
+xorplusNetwork 0 :: Network.Network;
+hiding data Network.Network
+}

@@ -1,0 +1,13 @@
+interface Algorithms where {
+import Prelude;
+type Act = Prelude.Float -> Prelude.Float;
+data Algorithm
+  = Algorithm { activation :: Prelude.Float -> Prelude.Float,
+                activation_der :: Prelude.Float -> Prelude.Float,
+                initWeights :: Prelude.Int -> Prelude.Int -> Prelude.Float }
+  {-# HIDING Algorithm #-};
+classifier 0 :: Algorithm;
+logistic 0 :: Algorithm;
+hiding data Prelude.Float;
+hiding data Prelude.Int
+}
