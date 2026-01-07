@@ -1,4 +1,4 @@
-module Learn (initialWeights, learn, learnEpic, learnExample, deltaOut, deltaNeuron, deltaInner, backPropagate, gradientDescent) where
+module Learn (initialWeights, learn, learnEpic, learnExample, backPropagate, gradientDescent) where
 import Algorithms
 import Network
 import LogicExamples
@@ -12,8 +12,7 @@ deltaOut    layer    (ex:exs)    (out:outs) =  let act = activation_der (algorit
                                                in  (out - ex) * (act out) : deltaOut layer exs outs
 
 deltaNeuron :: Int -> [[Weight]] -> [Delta] -> Delta
-deltaNeuron    pos    lws           deltas  =  let ws = map (!! pos) lws
-                                               in  dotProduct ws deltas
+deltaNeuron    pos    lws           deltas  =  dotProduct (map (!! pos) lws) deltas
 
 deltaInner :: Int -> Layer -> [[Weight]] -> [Delta] -> [Output] -> [Delta]
 deltaInner    _      _        _             _          []       = []
@@ -25,15 +24,7 @@ backPropagate :: [Layer] -> [Output] -> [[[Weight]]] -> [[Output]] -> [[Delta]]
 backPropagate    (rl:rls)   exs         rnws            (ol:ols)   =  backProp rls rnws (deltaOut rl exs ol) ols
     where backProp []         _           deltas _            = [deltas]
           backProp (rl':rls') (lws:rnws') deltas (outl:outls) = let deltasLower = deltaInner 0 rl' lws deltas outl
-                                                               in  deltas : backProp rls' rnws' deltasLower outls
-
---deltaInner :: Layer -> [[Weight]] -> [Delta] -> [Output] -> [Delta]
---deltaInner    _        _             _          []       =  []
---deltaInner    layer    (ws:lws)      deltas     (o:os)   =
---    let algo = activation_der (algorithm layer)
---    in  (deltaNeuron ws deltas) * (algo o) : deltaInner layer lws deltas os
---        where deltaNeuron _       []     = 0
---              deltaNeuron (w:ws') (d:ds) = w * d + deltaNeuron ws' ds
+                                                                in  deltas : backProp rls' rnws' deltasLower outls
 
 --backPropagate :: [Layer] -> [Output] -> [[[Weight]]] -> [[Output]] -> [[Delta]]
 --backPropagate    (rl:rls)   exs         rnws            (ol:ols)   =  backProp rls rnws (deltaOut rl exs ol) ols
@@ -86,3 +77,23 @@ initialWeights    network    ins =  initLWs ins (layers network)
                     initNWs ins'' ns' = if ns' <= 0 then [] else initNWs' ins'' ns'
                     where initNWs' ins''' ns'' = initWs ins''' : initNWs ins''' (ns'' - 1)
                         where initWs ins'''' = replicate (ins''''+1) (iw ins'''' (nodes layer))
+
+
+---------------------------------------------------------------------------------------
+-- Tests
+
+testDeltaOut :: [Float]
+testDeltaOut =  deltaOut (head (layers (andNetwork))) (expectation (head (exs (andNetwork)))) [1]
+
+testDeltaOut2 :: [Float] -> [Float]
+testDeltaOut2 outs =  deltaOut (head (layers (andNetwork))) [1, 1] outs
+
+testDeltaNeuron :: Bool
+testDeltaNeuron = deltaNeuron 0 [[1,2,3,4], [5,6,7,8]] [2,3] == 17
+
+testLayer :: Layer
+testLayer = Layer { nodes = 3, algorithm = classifier }
+
+testDeltaInner :: Bool
+testDeltaInner =  deltaInner 0 testLayer [[1,2,3,4], [5,6,7,8]] [2,3] [10,20,30] == [17, 22, 27]
+

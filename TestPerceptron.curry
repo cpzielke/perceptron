@@ -1,4 +1,4 @@
-module TestPerceptron(testLogic, testNand11, testNetworkWs) where
+module TestPerceptron(testLogic, testNand11, testNetwork, testNetworkWs) where
 import Algorithms
 import Network
 import LogicExamples

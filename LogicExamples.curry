@@ -108,7 +108,7 @@ xorLayers = [
   ]
 
 xorWeights :: [[[Float]]]
-xorWeights = [[[]]]
+xorWeights = [[[-1.438196709671797, -1.707012411805593, -1.1441792440796856], [0.8407606254088471, 0.7705104668077912, -1.7859280329028089]], [[1.1481510424634949, 0.8652407233384776, -0.4]]]
 
 xorNetwork :: Network
 xorNetwork = Network { weights = xorWeights, exs = xorExamples, layers = xorLayers, learningRate = lEARNING_RATE }
