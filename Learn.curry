@@ -26,12 +26,6 @@ backPropagate    (rl:rls)   exs         rnws            (ol:ols)   =  backProp r
           backProp (rl':rls') (lws:rnws') deltas (outl:outls) = let deltasLower = deltaInner 0 rl' lws deltas outl
                                                                 in  deltas : backProp rls' rnws' deltasLower outls
 
---backPropagate :: [Layer] -> [Output] -> [[[Weight]]] -> [[Output]] -> [[Delta]]
---backPropagate    (rl:rls)   exs         rnws            (ol:ols)   =  backProp rls rnws (deltaOut rl exs ol) ols
---    where backProp []         _           delta _            = [delta]
---          backProp (rl':rls') (lws:rnws') delta (outl:outls) = let deltaLower = deltaInner rl' lws delta outl
---                                                               in  delta : backProp rls' rnws' deltaLower outls
-
 adjustNeuron :: Float -> [Weight] -> [Input] -> Delta -> [Weight]
 adjustNeuron    lr       [bias]      []         delta =  [bias - lr * delta]
 adjustNeuron    lr       (w:ws)      (i:is)     delta =  w - lr * delta * i : adjustNeuron lr ws is delta
@@ -57,12 +51,8 @@ learnExample    network    rnws            ex      =  let ns     = feedForward n
                                                           deltas = backPropagate rls (expectation ex) rnws ns
                                                       in  gradientDescent lr rnws ns deltas
 
-learnExampleNetwork :: (Network -> [[[Weight]]] -> Example -> [[[Weight]]]) -> Network -> ([[[Weight]]] -> Example -> [[[Weight]]])
-learnExampleNetwork    learningFunction                                        network =  learningFunction network
-
 learnEpic :: Network -> [[[Weight]]] -> [[[Weight]]]
-learnEpic    network    rnws         =  let lf = learnExampleNetwork learnExample network
-                                        in  foldl lf rnws (exs network)
+learnEpic    network    rnws         =  foldl (learnExample network) rnws (exs network)
 
 learn :: Int -> Network -> [[[Weight]]] -> [[[Weight]]]
 learn    count  network    rnws         =  let newNWs = learnEpic network rnws

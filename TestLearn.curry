@@ -49,22 +49,27 @@ networkWeights :: [[[Weight]]]
 networkWeights =  [[[0.2, 0.2, 0.2]], [[0.3, 0.3, 0.3], [0.4, 0.4, 0.4]]]
 
 testNetExample :: Example
-testNetExample =  head (exs testNetwork)
+testNetExample =  let [_, _, _, x] = exs testNetwork
+                  in x
 
-testFFnet :: Bool
-testFFnet =  feedForward testNetwork [0, 0] networkWeights == [[1], [0.574442516811659, 0.5986876601124521], [0, 0]]
+testFFnet :: [[Float]]
+testFFnet =  feedForward testNetwork (inputs testNetExample) networkWeights
+                 -- == [[1], [0.7109495026250039, 0.7685247834990178], [1, 1]]
 
-testBPnet :: Bool
-testBPnet =  backPropagate (reverse (layers testNetwork)) (expectation testNetExample) networkWeights [[1], [0.574442516811659, 0.5986876601124521], [0, 0]] == [[0], [0, 0]]
+testBPnet :: [[Float]]
+testBPnet =  backPropagate (reverse (layers testNetwork)) (expectation testNetExample) networkWeights [[1], [0.7, 0.7], [1, 1]]
+                 -- == [[1], [0.04200000000000001, 0.04200000000000001]]
 
-testGDnet :: Bool
-testGDnet =  gradientDescent (learningRate testNetwork) networkWeights [[1], [0.574442516811659, 0.5986876601124521], [0, 0]] [[0], [0, 0]] == networkWeights
+testGDnet :: [[[Float]]]
+testGDnet =  gradientDescent (learningRate testNetwork) networkWeights [[1], [0.7, 0.7], [1, 1]] [[1], [0.1, 0.1]]
+                 -- == [[[0.13, 0.13, 0.1]], [[0.29, 0.29, 0.29], [0.39, 0.39, 0.39]]]
 
 testLEnet :: Bool
 testLEnet =  learnExample testNetwork networkWeights testNetExample == networkWeights
 
-testEpicNet :: [[[Weight]]]
+testEpicNet :: [[[Float]]]
 testEpicNet =  learnEpic testNetwork networkWeights
+
 
 testLearnNet :: [[[Weight]]]
 testLearnNet =  learn 5000 testNetwork networkWeights

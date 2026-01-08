@@ -95,10 +95,10 @@ nandNetwork = Network { weights = nandWeights, exs = nandExamples, layers = nand
 -- XOR
 xorExamples :: [Example]
 xorExamples = [
-    Example { name = "FF", inputs = [0, 0], expectation = [1] },
-    Example { name = "FT", inputs = [0, 1], expectation = [0] },
-    Example { name = "TF", inputs = [1, 0], expectation = [0] },
-    Example { name = "TT", inputs = [1, 1], expectation = [1] }
+    Example { name = "FF", inputs = [0, 0], expectation = [0] },
+    Example { name = "FT", inputs = [0, 1], expectation = [1] },
+    Example { name = "TF", inputs = [1, 0], expectation = [1] },
+    Example { name = "TT", inputs = [1, 1], expectation = [0] }
   ]
 
 xorLayers :: [Layer]
@@ -108,7 +108,7 @@ xorLayers = [
   ]
 
 xorWeights :: [[[Float]]]
-xorWeights = [[[-1.438196709671797, -1.707012411805593, -1.1441792440796856], [0.8407606254088471, 0.7705104668077912, -1.7859280329028089]], [[1.1481510424634949, 0.8652407233384776, -0.4]]]
+xorWeights = [[[-1.4371652540903184, -1.7011433422421145, -1.1245228358001023], [0.8418978570520899, 0.7372312749809187, -1.7623473531669684]], [[-1.1349023507532465, -0.8502081202751894, 0.4]]]
 
 xorNetwork :: Network
 xorNetwork = Network { weights = xorWeights, exs = xorExamples, layers = xorLayers, learningRate = lEARNING_RATE }
