@@ -31,18 +31,14 @@ adjustNeuron    lr       [bias]      []         delta =  [bias - lr * delta]
 adjustNeuron    lr       (w:ws)      (i:is)     delta =  w - lr * delta * i : adjustNeuron lr ws is delta
 
 adjustLayer :: Float -> [[Weight]] -> [Input] -> [Delta] -> [[Weight]]
-adjustLayer    lr       (nws:lws)     is          (d:ds) =  let ws = adjustNeuron lr nws is d
-                                                            in if lws == [] then
-                                                                [ws]
-                                                            else
-                                                                ws : adjustLayer lr lws is ds
+adjustLayer    _        []             _         _       =  []
+adjustLayer    lr       (nws:lws)     is         (d:ds)  =  let ws = adjustNeuron lr nws is d
+                                                            in ws : adjustLayer lr lws is ds
 
 gradientDescent :: Float -> [[[Weight]]] -> [[Input]] -> [[Delta]] -> [[[Weight]]]
+gradientDescent    _        []              _            _         =  []
 gradientDescent    lr       (lws:nws)       (_:is:lis)   (ds:lds)  =  let ws = adjustLayer lr lws is ds
-                                                                      in if nws == [] then
-                                                                          [ws]
-                                                                      else
-                                                                          ws : gradientDescent lr nws (is:lis) lds
+                                                                      in ws : gradientDescent lr nws (is:lis) lds
 
 learnExample :: Network -> [[[Weight]]] -> Example -> [[[Weight]]]
 learnExample    network    rnws            ex      =  let ns     = feedForward network (inputs ex) rnws
