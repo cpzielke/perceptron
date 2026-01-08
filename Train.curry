@@ -1,18 +1,15 @@
-module Train (trailingExpected, precedingExpected, train) where
+module Train (trainEpic, train) where
+
+import Network
 import Learn
 
-trailingExpected :: [Float] -> [Float] -> [Float]
-trailingExpected [] _                       = failed
-trailingExpected ds ws | is ++ [exp] =:= ds = learn ws is exp
-     where is, exp free
+trainEpic :: Network -> [[[Weight]]] -> [[[Weight]]]
+trainEpic    network    rnws         =  foldl (learnExample network) rnws (exs network)
 
-precedingExpected :: [Float] -> [Float] -> [Float]
-precedingExpected []       _  = failed
-precedingExpected (exp:is) ws = learn ws is exp
+train :: Int -> Network -> [[[Weight]]] -> [[[Weight]]]
+train    count  network    rnws         =  let newNWs = trainEpic network rnws
+                                           in  if count <= 0 then rnws else train (count - 1) network newNWs
 
-epoch :: ([Float] -> [Float] -> [Float]) -> [[Float]] -> Int -> [Float] -> [Float]
-epoch expected dataset _ ws = foldr expected ws dataset
 
-train :: ([Float] -> [Float] -> [Float]) -> [[Float]] -> [Int] -> [Float]
-train _ [] _  = failed
-train expected (input:inputs) epochList = foldr (epoch expected (input:inputs)) (initialWeights input) epochList
+
+-----------------------------------------------------------------------------------------------------------------

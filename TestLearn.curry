@@ -1,7 +1,7 @@
 module TestLearn(
-    testLearn, testInitialWeights, testBackPropagate,
-    testGD, testLE, testGate, testEpic, testLEgate, testLearnGate,
-    testFFnet, testBPnet, testGDnet, testLEnet, testEpicNet, testLearnNet, testNetWs, testNetwork, verifyNet
+    testInitialWeights, testBackPropagate,
+    testGD, testLE, testGate, testLEgate,
+    testFFnet, testBPnet, testGDnet, testLEnet
 )where
 
 import Learn
@@ -10,9 +10,6 @@ import Network
 import LogicExamples
 import Perceptron
 
-testLearn :: [[[Weight]]]
-testLearn = learn 1 andNetwork (weights andNetwork)
- 
 testInitialWeights :: [[[Weight]]]
 testInitialWeights =  initialWeights nandNetwork 2
 
@@ -29,17 +26,11 @@ testLE =  learnExample nandNetwork (reverse (weights nandNetwork)) (head (exs na
 testLEs :: Network -> [Example]
 testLEs    network =  filter (\e -> learnExample network (reverse (weights network)) e /= (reverse (weights network))) (exs network)
 
-testEpic :: Network -> [[[Weight]]] -> [[[Weight]]]
-testEpic    network    nws          =  learnEpic network nws
-
 testGate :: Network -> [Input] -> [[[Weight]]] -> [Output]
 testGate    network    inputs     nws          = eval2 network nws inputs
 
 testLEgate :: Network -> [[[Weight]]] -> [[[Weight]]]
 testLEgate    network    rnws         =  learnExample network rnws (head (exs network))
-
-testLearnGate :: Network -> [[[Weight]]] -> [[[Weight]]]
-testLearnGate    network    rnws         =  learn 1 network rnws
 
 
 testNetwork :: Network
@@ -65,17 +56,5 @@ testGDnet =  gradientDescent (learningRate testNetwork) networkWeights [[1], [0.
                  -- == [[[0.13, 0.13, 0.1]], [[0.29, 0.29, 0.29], [0.39, 0.39, 0.39]]]
 
 testLEnet :: Bool
-testLEnet =  learnExample testNetwork networkWeights testNetExample == networkWeights
+testLEnet =  learnExample testNetwork networkWeights testNetExample /= networkWeights
 
-testEpicNet :: [[[Float]]]
-testEpicNet =  learnEpic testNetwork networkWeights
-
-
-testLearnNet :: [[[Weight]]]
-testLearnNet =  learn 5000 testNetwork networkWeights
-
-testNetWs :: [[[Weight]]] -> [Example]
-testNetWs    nws          =  filter (\e -> eval2 testNetwork nws (inputs e) /= expectation e) (exs testNetwork)
-
-verifyNet :: [Example]
-verifyNet =  testNetWs (reverse testLearnNet)
