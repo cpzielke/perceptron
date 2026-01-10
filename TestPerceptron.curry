@@ -1,4 +1,4 @@
-module TestPerceptron(testLogic, testNand11, testNetwork, testNetworkWs) where
+module TestPerceptron(testLogic, testNand11, testNetwork, testNetworkWs, testEvalNetWs) where
 import Algorithms
 import Network
 import LogicExamples
@@ -16,3 +16,6 @@ testNand11 =  networkDotProduct nandNetwork (inputs example11) (weights nandNetw
 
 testNetworkWs :: Network -> [[[Weight]]] -> [Example]
 testNetworkWs    network    nws          =  filter (\e -> eval2 network nws (inputs e) /= expectation e) (exs network)
+
+testEvalNetWs :: [Example]
+testEvalNetWs =  evalNetWs nandNetwork (weights nandNetwork)

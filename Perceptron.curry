@@ -1,4 +1,4 @@
-module Perceptron (eval, eval2, dotProduct, networkDotProduct, feedForward) where
+module Perceptron (eval, eval2, dotProduct, networkDotProduct, feedForward, evalNetWs) where
 import Network
 import Algorithms
 
@@ -31,3 +31,6 @@ eval    network    is      =  let (out:_) = reverse (networkDotProduct network i
 eval2 :: Network -> [[[Weight]]] -> [Input] -> [Output]
 eval2    network    nws             is      =  let (out:_) = reverse (networkDotProduct network is nws)
                                                in out
+
+evalNetWs :: Network -> [[[Weight]]] -> [Example]
+evalNetWs    network    nws          =  filter (\e -> eval2 network nws (inputs e) /= expectation e) (exs network)
