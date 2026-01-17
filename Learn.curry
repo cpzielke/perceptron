@@ -1,4 +1,4 @@
-module Learn (initialWeights, learnExample, backPropagate, gradientDescent) where
+module Learn (initialWeights, revInitialWeights, learnExample, backPropagate, gradientDescent) where
 import Algorithms
 import Network
 import LogicExamples
@@ -46,6 +46,9 @@ learnExample    network    rnws            ex      =  let ns     = feedForward n
                                                           lr     = learningRate network
                                                           deltas = backPropagate rls (expectation ex) rnws ns
                                                       in  gradientDescent lr rnws ns deltas
+
+revInitialWeights :: Network -> [[[Weight]]]
+revInitialWeights    network =  reverse (initialWeights network (length (inputs (head (exs network)))))
 
 initialWeights :: Network -> Int -> [[[Weight]]]
 initialWeights    network    ins =  initLWs ins (layers network)

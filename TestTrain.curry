@@ -1,4 +1,4 @@
-module TestTrain (testTrain, testEpic, testEpicNet, testTrainNet, testNetWs, verifyNet) where
+module TestTrain (testTrain, testEpic, testEpicNet, testTrainNet, testNetWs, verifyNet, w, networkWeights) where
 
 import Network
 import LogicExamples
@@ -7,7 +7,7 @@ import Train
 
 
 testTrain :: [[[Weight]]]
-testTrain = train 1 andNetwork (weights andNetwork)
+testTrain = train 2 andNetwork (weights andNetwork)
 
 testEpic :: Network -> [[[Weight]]] -> [[[Weight]]]
 testEpic    network    nws          =  trainEpic network nws
@@ -26,7 +26,12 @@ testTrainNet :: [[[Weight]]]
 testTrainNet =  train 5000 testNetwork networkWeights
 
 testNetWs :: [[[Weight]]] -> [Example]
-testNetWs    nws          =  filter (\e -> eval2 testNetwork nws (inputs e) /= expectation e) (exs testNetwork)
+testNetWs    rnws          =  evalRNetWs testNetwork rnws
 
 verifyNet :: [Example]
-verifyNet =  testNetWs (reverse testTrainNet)
+verifyNet =  testNetWs testTrainNet
+
+w :: IO ()
+w =  do let result = testEpicNet
+        putStr "testEpicNet = "
+        print result

@@ -1,4 +1,4 @@
-module Perceptron (eval, eval2, dotProduct, networkDotProduct, feedForward, evalNetWs) where
+module Perceptron (eval, evalR, dotProduct, networkDotProduct, feedForward, evalRNetWs, passRNetWs) where
 import Network
 import Algorithms
 
@@ -25,12 +25,13 @@ feedForward :: Network -> [Input] -> [[[Weight]]] -> [[Output]]
 feedForward    network    is         rnws         =  reverse (networkDotProduct network is (reverse rnws))
 
 eval :: Network -> [Input] -> [Output]
-eval    network    is      =  let (out:_) = reverse (networkDotProduct network is (weights network))
-                              in out
+eval    network    is      =  head (reverse (networkDotProduct network is (weights network)))
 
-eval2 :: Network -> [[[Weight]]] -> [Input] -> [Output]
-eval2    network    nws             is      =  let (out:_) = reverse (networkDotProduct network is nws)
-                                               in out
+evalR :: Network -> [[[Weight]]] -> [Input] -> [Output]
+evalR    network    rnws            is      =  head (feedForward network is rnws)
 
-evalNetWs :: Network -> [[[Weight]]] -> [Example]
-evalNetWs    network    nws          =  filter (\e -> eval2 network nws (inputs e) /= expectation e) (exs network)
+evalRNetWs :: Network -> [[[Weight]]] -> [Example]
+evalRNetWs    network    rnws          =  filter (\e -> evalR network rnws (inputs e) /= expectation e) (exs network)
+
+passRNetWs :: Network -> [[[Weight]]] -> Bool
+passRNetWs    network    rnws          =  length (evalRNetWs network rnws) == 0
