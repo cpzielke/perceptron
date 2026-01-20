@@ -6,7 +6,7 @@ import Perceptron
 import Learn
 
 trainEpic :: Network -> [[[Weight]]] -> [[[Weight]]]
-trainEpic    network    rnws         =  foldl (learnExample network) rnws (exs network)
+trainEpic    network    rnws         =  foldl (learnExample network) (traceShowId rnws) (exs network)
 
 train :: Int -> Network -> [[[Weight]]] -> [[[Weight]]]
 train    count  network    rnws         =  let newNWs = trainEpic network rnws

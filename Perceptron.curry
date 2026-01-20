@@ -1,4 +1,6 @@
 module Perceptron (eval, evalR, dotProduct, networkDotProduct, feedForward, evalRNetWs, passRNetWs) where
+
+import Debug.Trace
 import Network
 import Algorithms
 
@@ -28,7 +30,7 @@ eval :: Network -> [Input] -> [Output]
 eval    network    is      =  head (reverse (networkDotProduct network is (weights network)))
 
 evalR :: Network -> [[[Weight]]] -> [Input] -> [Output]
-evalR    network    rnws            is      =  head (feedForward network is rnws)
+evalR    network    rnws            is      =  head (traceShowId (feedForward network is rnws))
 
 evalRNetWs :: Network -> [[[Weight]]] -> [Example]
 evalRNetWs    network    rnws          =  filter (\e -> evalR network rnws (inputs e) /= expectation e) (exs network)

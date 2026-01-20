@@ -116,15 +116,14 @@ xorNetwork = Network { weights = xorWeights, exs = xorExamples, layers = xorLaye
 -- XORPLUS
 xorplusExamples :: [Example]
 xorplusExamples = [
-    Example { name = "FF", inputs = [0, 0], expectation = [1, 0] },
-    Example { name = "FT", inputs = [0, 1], expectation = [0, 0] },
-    Example { name = "TF", inputs = [1, 0], expectation = [0, 1] },
-    Example { name = "TT", inputs = [1, 1], expectation = [1, 0] }
+    Example { name = "FF", inputs = [0, 0], expectation = [0, 0] },
+    Example { name = "FT", inputs = [0, 1], expectation = [1, 0] },
+    Example { name = "TF", inputs = [1, 0], expectation = [1, 1] },
+    Example { name = "TT", inputs = [1, 1], expectation = [0, 0] }
   ]
 
 xorplusLayers :: [Layer]
 xorplusLayers = [
-    Layer { nodes = 4, algorithm = logistic },
     Layer { nodes = 3, algorithm = logistic },
     Layer { nodes = 2, algorithm = classifier }
   ]
