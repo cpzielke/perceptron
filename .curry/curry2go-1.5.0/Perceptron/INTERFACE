@@ -1,1 +1,0 @@
-("Perceptron", ["Algorithms", "Network", "Prelude"], [], ["dotProduct", "networkDotProduct", "feedForward", "eval", "eval2"], [])

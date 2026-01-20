@@ -1,1 +1,0 @@
-("TestPerceptron", ["LogicExamples", "Network", "Perceptron", "Prelude"], [], ["testLogic", "testNand11", "testNetworkWs"], [])
