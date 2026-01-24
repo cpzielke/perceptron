@@ -7,6 +7,8 @@ import Perceptron
 type Delta = Float
 
 deltaOut :: Layer -> [Output] -> [Output]   -> [Delta]
+deltaOut    _        []          (_:_)      =  failed
+deltaOut    _        (_:_)       []         =  failed
 deltaOut    _        []          []         =  []
 deltaOut    layer    (ex:exs)    (out:outs) =  let act = activation_der (algorithm layer)
                                                in  (out - ex) * (act out) : deltaOut layer exs outs
@@ -21,21 +23,31 @@ deltaInner    index  layer    lws           deltas     (o:os)   = let algo = act
                                                                   in  d : deltaInner (index+1) layer lws deltas os
 
 backPropagate :: [Layer] -> [Output] -> [[[Weight]]] -> [[Output]] -> [[Delta]]
+backPropagate    []         _           _               _          =  failed
+backPropagate    (_:_)      _           _               []         =  failed
 backPropagate    (rl:rls)   exs         rnws            (ol:ols)   =  backProp rls rnws (deltaOut rl exs ol) ols
-    where backProp []         _           deltas _            = [deltas]
+    where backProp (_:_)      []          _      _            = failed
+          backProp (_:_)      (_:_)       _      []           = failed
+          backProp []         _           deltas _            = [deltas]
           backProp (rl':rls') (lws:rnws') deltas (outl:outls) = let deltasLower = deltaInner 0 rl' lws deltas outl
                                                                 in  deltas : backProp rls' rnws' deltasLower outls
 
 adjustNeuron :: Float -> [Weight] -> [Input] -> Delta -> [Weight]
+adjustNeuron    _        []          _          _     =  failed
+adjustNeuron    _        (_:_:_)     []         _     =  failed
 adjustNeuron    lr       [bias]      []         delta =  [bias - lr * delta]
 adjustNeuron    lr       (w:ws)      (i:is)     delta =  w - lr * delta * i : adjustNeuron lr ws is delta
 
 adjustLayer :: Float -> [[Weight]] -> [Input] -> [Delta] -> [[Weight]]
+adjustLayer    _        (_:_)          _         []      =  failed
 adjustLayer    _        []             _         _       =  []
 adjustLayer    lr       (nws:lws)     is         (d:ds)  =  let ws = adjustNeuron lr nws is d
                                                             in ws : adjustLayer lr lws is ds
 
 gradientDescent :: Float -> [[[Weight]]] -> [[Input]] -> [[Delta]] -> [[[Weight]]]
+gradientDescent    _        (_:_)           []           _         =  failed
+gradientDescent    _        (_:_)           [_]          _         =  failed
+gradientDescent    _        (_:_)           (_:_:_)      []        =  failed
 gradientDescent    _        []              _            _         =  []
 gradientDescent    lr       (lws:nws)       (_:is:lis)   (ds:lds)  =  let ws = adjustLayer lr lws is ds
                                                                       in ws : gradientDescent lr nws (is:lis) lds

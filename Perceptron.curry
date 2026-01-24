@@ -7,6 +7,7 @@ import Algorithms
 dotProduct :: [Float] -> [Float]  -> Output
 dotProduct    (_:_:_)    []       =  failed
 dotProduct    []         (_:_:_)  =  failed
+dotProduct    [_]        []       =  failed
 dotProduct    []         []       =  0
 dotProduct    []         [bias]   =  bias
 dotProduct    (i:is)     (w:ws)   =  i * w + dotProduct is ws

@@ -27,7 +27,7 @@ testLEs :: Network -> [Example]
 testLEs    network =  filter (\e -> learnExample network (reverse (weights network)) e /= (reverse (weights network))) (exs network)
 
 testGate :: Network -> [Input] -> [[[Weight]]] -> [Output]
-testGate    network    inputs     nws          = eval2 network nws inputs
+testGate    network    inputs     nws          = evalR network nws inputs
 
 testLEgate :: Network -> [[[Weight]]] -> [[[Weight]]]
 testLEgate    network    rnws         =  learnExample network rnws (head (exs network))
