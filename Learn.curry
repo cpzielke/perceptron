@@ -1,4 +1,6 @@
 module Learn (initialWeights, revInitialWeights, learnExample, backPropagate, gradientDescent) where
+
+import System.Random
 import Algorithms
 import Network
 import LogicExamples
@@ -70,8 +72,8 @@ initialWeights    network    ins =  initLWs ins (layers network)
               where iw = initWeights (algorithm layer)
                     initNWs ins'' ns' = if ns' <= 0 then [] else initNWs' ins'' ns'
                     where initNWs' ins''' ns'' = initWs ins''' : initNWs ins''' (ns'' - 1)
-                        where initWs ins'''' = replicate (ins''''+1) (iw ins'''' (nodes layer))
-
+                        where initWs ins'''' = take (ins''''+1) (map (\i -> toFloat (i `mod` 10) / 10) (nextInt (iw ins'''' (nodes layer))))
+--                        where initWs ins'''' = replicate (ins''''+1) (iw ins'''' (nodes layer))
 
 ---------------------------------------------------------------------------------------
 -- Tests
