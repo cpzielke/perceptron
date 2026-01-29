@@ -1,4 +1,5 @@
 # Curry compiled files
+.cpm/
 .curry/
 *.fcy
 *.acy
