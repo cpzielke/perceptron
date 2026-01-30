@@ -1,4 +1,4 @@
-module Main where
+module Main (addNetwork) where
 
 import Network
 import Perceptron
@@ -22,12 +22,24 @@ addExamples = [
 
 addLayers :: [Layer]
 addLayers = [
-    Layer { nodes = 3, algorithm = logistic },
+    Layer { nodes = 4, algorithm = logistic },
     Layer { nodes = 2, algorithm = classifier }
   ]
 
 addWeights :: [[[Float]]]
-addWeights = [[[1, 1, -1.5]]]
+addWeights = [
+    [
+      --[-0.14181385681495548, 0.18101883140728042, 0.2667752875156593, -2.235642747338454],
+      --[1.0237803190746038, 0.4392286431233121, 1.0346636324225131, -2.736708827041986],
+      --[-1.8682894731204003, -1.7149844573679054, -1.4160263070279422, -1.1095255779746231],
+      --[-1.6601931463867132, -1.1745242464599182, -1.5306735213471891, 1.1162976192236396]
+    ],
+    [
+      --[0.1621758672231053, 1.1312442911868033, -1.6679616858844406, 1.0869127409386288, -0.5],
+      --[1.2882529085015741, 0.5111566473716767, -0.0021684209201429843, -1.609594197729459, 0.1]
+    ]
+  ]
+
 
 addNetwork :: Network
 addNetwork = Network { weights = addWeights, exs = addExamples, layers = addLayers, learningRate = 0.1 }
