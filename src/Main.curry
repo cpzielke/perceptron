@@ -45,9 +45,5 @@ addNetwork :: Network
 addNetwork = Network { weights = addWeights, exs = addExamples, layers = addLayers, learningRate = 0.1 }
 
 
-main :: IO ()
-main =  do  putStrLn "Training network..."
-            finalWeights <- trainNew addNetwork
-            putStrLn "Final weights:"
-            print finalWeights
-            
+main :: IO [[[Weight]]]
+main =  return (trainNew addNetwork)
