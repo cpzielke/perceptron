@@ -5,12 +5,16 @@ import Network
 import Algorithms
 
 dotProduct :: [Float] -> [Float]  -> Output
+--dotProduct    is         ws       = prim_dotProduct (apply groundNormalForm is) (apply groundNormalForm ws)
 dotProduct    (_:_:_)    []       =  failed
 dotProduct    []         (_:_:_)  =  failed
 dotProduct    [_]        []       =  failed
 dotProduct    []         []       =  0
 dotProduct    []         [bias]   =  bias
 dotProduct    (i:is)     (w:ws)   =  i * w + dotProduct is ws
+
+prim_dotProduct :: [Float] -> [Float]  -> Output
+prim_dotProduct external
 
 layerDotProduct :: Act -> [Input] -> [[Weight]] -> [Output]
 layerDotProduct    _      _          []         =  []

@@ -1,4 +1,4 @@
-module Main (addNetwork) where
+module Main (main, addNetwork) where
 
 import Network
 import Perceptron
@@ -44,6 +44,14 @@ addWeights = [
 addNetwork :: Network
 addNetwork = Network { weights = addWeights, exs = addExamples, layers = addLayers, learningRate = 0.1 }
 
-
 main :: IO [[[Weight]]]
-main =  return (trainNew addNetwork)
+--main =  do putStrLn "Training ADD Network..." 
+--           let revWeights = trainNew addNetwork
+--           putStrLn ("Trained Weights: " ++ show revWeights)
+--           return revWeights
+
+main =  do putStrLn "Testing dotProduct..."
+           let result = dotProduct [1.0, 2.0, 3.0] [0.5, 0.5, 0.5, 2.0]
+           putStrLn ("Dot Product Result: " ++ show result)
+           return []
+
